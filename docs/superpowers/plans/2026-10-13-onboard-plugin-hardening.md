@@ -29,9 +29,9 @@
 
 ## Tasks
 
-- [ ] Add standard-library regression tests for the review focus and confirm the vulnerable behavior fails before edits.
-- [ ] Harden `check.py`, `redact.py`, `reader_view.py`, and the HTML calculator boundary.
-- [ ] Make installer output UTF-8 safe, update AGENTS.md paths idempotently, create parents, and avoid unsafe replacement behavior.
-- [ ] Rename the plugin directory and manifests/documentation to `onboard`; migrate sample theme names.
-- [ ] Run compile, focused tests, sample regressions, manifest validation, and packaging smoke checks.
-- [ ] Initialize/inspect Git metadata, commit the verified result, and push only after a GitHub remote is available.
+- [x] Add standard-library regression tests for the review focus and confirm the vulnerable behavior fails before edits.
+- [x] Harden `check.py`, `redact.py`, `reader_view.py`, and the HTML calculator boundary.
+- [x] Make installer output UTF-8 safe, update AGENTS.md paths idempotently, create parents, and avoid unsafe replacement behavior.
+- [x] Rename the plugin directory and manifests/documentation to `onboard`; migrate sample theme names.
+- [x] Run compile, focused tests, sample regressions, manifest validation, and packaging smoke checks.
+- [x] Initialize/inspect Git metadata, commit the verified result, and push to the configured GitHub remote.
