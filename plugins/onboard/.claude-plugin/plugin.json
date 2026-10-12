@@ -1,0 +1,9 @@
+{
+  "name": "onboard",
+  "displayName": "Onboard",
+  "version": "2.1.0",
+  "description": "Trang giải trình / onboard siêu dễ hiểu cho khách hàng, lãnh đạo, BA, Dev, QC, vận hành và người mới. Gồm skill /onboard, skill soát lại, subagent soát độc lập và dịch, hook tự kiểm story.",
+  "author": { "name": "Onboard" },
+  "license": "UNLICENSED",
+  "keywords": ["onboard", "explainer", "rca", "giai-trinh", "ba", "documentation"]
+}

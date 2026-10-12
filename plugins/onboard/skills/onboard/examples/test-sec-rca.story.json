@@ -1,0 +1,1051 @@
+{
+  "version": 1,
+  "id": "test-sec-missing-slots",
+  "langs": [
+    "vi",
+    "en",
+    "ja"
+  ],
+  "defaultLang": "vi",
+  "theme": "onboard",
+  "brief": {
+    "recipient": "Khách hàng (team DOOH phía khách) và QC",
+    "sharing": "external",
+    "level": "high",
+    "situation": "Sự cố / RCA",
+    "skeleton": "su-viec",
+    "purpose": "Hiểu vì sao thiếu slot và đồng ý hướng sửa",
+    "audience": {
+      "context": "known",
+      "depth": "flow",
+      "goal": "decide",
+      "tone": "formal",
+      "length": "5min"
+    },
+    "objections": [
+      {
+        "q": "Có phải do HiveStack hoặc thiết bị không?",
+        "step": 6
+      },
+      {
+        "q": "Vì sao cả 10 màn hình cùng thiếu đúng các mốc đó?",
+        "step": 5
+      },
+      {
+        "q": "Sửa thế nào, có chắc hết lỗi không?",
+        "step": 9
+      },
+      {
+        "q": "Bao giờ sửa xong?",
+        "gap": "Chưa có ngày triển khai"
+      }
+    ]
+  },
+  "meta": {
+    "title": {
+      "vi": "Vì sao mất slot quảng cáo",
+      "en": "Why ad slots went missing",
+      "ja": "広告スロットが欠落した理由"
+    },
+    "subtitle": {
+      "vi": "TEST-SEC · 10/10/2026, 06:00–06:08 · 10 màn hình",
+      "en": "TEST-SEC · Oct 10, 2026, 06:00–06:08 · 10 screens",
+      "ja": "TEST-SEC · 2026/10/10 06:00–06:08 · 画面10台"
+    }
+  },
+  "steps": [
+    {
+      "title": {
+        "vi": "10 màn hình × 16 slot = 160 slot cần quảng cáo",
+        "en": "10 screens × 16 slots = 160 slots to fill",
+        "ja": "10画面 × 16スロット ＝ 広告が必要な160枠"
+      },
+      "body": {
+        "vi": "Mỗi hàng là 1 màn hình. Mỗi ô là 1 slot 30 giây.",
+        "en": "Each row is one screen. Each cell is one 30-second slot.",
+        "ja": "1行＝1画面、1マス＝30秒のスロットです。"
+      },
+      "alt": {
+        "vi": "Lưới 10 hàng × 16 cột, mốc 06:00 đến 06:07",
+        "en": "Grid of 10 rows × 16 columns, 06:00 to 06:07",
+        "ja": "10行×16列のグリッド、06:00〜06:07"
+      },
+      "sources": [
+        "Bảng kết quả DB do đối tác gửi: 10 thiết bị × 16 vị trí"
+      ],
+      "visual": {
+        "pattern": "grid",
+        "rowCount": 10,
+        "colCount": 16,
+        "heads": [
+          "06:00",
+          "06:01",
+          "06:02",
+          "06:03",
+          "06:04",
+          "06:05",
+          "06:06",
+          "06:07"
+        ],
+        "headSpan": 2,
+        "cells": {
+          "default": "empty"
+        },
+        "anim": "build"
+      }
+    },
+    {
+      "title": {
+        "vi": "Bình thường: 30 giây chạy 1 lượt",
+        "en": "Normally: one run every 30 seconds",
+        "ja": "通常時：30秒ごとに1回実行"
+      },
+      "body": {
+        "vi": "Mỗi lượt chuẩn bị trước 2 phút cho slot sắp phát, trên cả 10 màn hình.",
+        "en": "Each run prepares the upcoming slot 2 minutes ahead, for all 10 screens.",
+        "ja": "各実行が、2分後に配信するスロットを10画面分まとめて準備します。"
+      },
+      "chips": [
+        {
+          "kind": "ok",
+          "text": {
+            "vi": "Lượt nào cũng xong trước lượt sau, nên <b>không sót ô nào</b>",
+            "en": "Every run finishes before the next one, so <b>no cell is missed</b>",
+            "ja": "各実行が次の実行までに完了するため、<b>欠落なし</b>"
+          }
+        }
+      ],
+      "alt": {
+        "vi": "Các cột lần lượt chuyển xanh",
+        "en": "Columns turn green one after another",
+        "ja": "列が順番に緑になる"
+      },
+      "sources": [
+        "Cấu hình scheduler: IntervalSeconds=30, PaddingSeconds=120"
+      ],
+      "visual": {
+        "pattern": "grid",
+        "rowCount": 10,
+        "colCount": 16,
+        "heads": [
+          "06:00",
+          "06:01",
+          "06:02",
+          "06:03",
+          "06:04",
+          "06:05",
+          "06:06",
+          "06:07"
+        ],
+        "headSpan": 2,
+        "cells": {
+          "default": "ok"
+        },
+        "anim": "sweep",
+        "legend": [
+          {
+            "state": "ok",
+            "text": {
+              "vi": "Có transaction",
+              "en": "Has transaction",
+              "ja": "トランザクションあり"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "title": {
+        "vi": "Mỗi lượt lo slot 2 phút sau",
+        "en": "Each run covers the slot 2 minutes later",
+        "ja": "各実行は2分後のスロットを担当"
+      },
+      "body": {
+        "vi": "Lượt <b>05:59:00</b> chuẩn bị cho slot <b>06:01:00</b>. Mỗi lượt phải xong trong 30 giây, trước khi lượt sau tới.",
+        "en": "The <b>05:59:00</b> run prepares the <b>06:01:00</b> slot. Each run must finish within 30 seconds, before the next run is due.",
+        "ja": "<b>05:59:00</b>の実行が<b>06:01:00</b>のスロットを準備します。各実行は次の実行までの30秒以内に完了する必要があります。"
+      },
+      "chips": [
+        {
+          "kind": "ok",
+          "text": {
+            "vi": "Lượt nào cũng đúng giờ, nên slot nào cũng có lượt lo",
+            "en": "All runs are on time, so every slot is covered",
+            "ja": "すべての実行が時間内のため、全スロットが準備される"
+          }
+        }
+      ],
+      "alt": {
+        "vi": "Dòng thời gian: mỗi lượt có mũi tên xuống slot 2 phút sau",
+        "en": "Timeline: each run points down to the slot 2 minutes later",
+        "ja": "タイムライン：各実行から2分後のスロットへ矢印"
+      },
+      "sources": [
+        "Cấu hình scheduler: PaddingSeconds=120, ScanHorizonSeconds=60"
+      ],
+      "visual": {
+        "pattern": "timeline",
+        "topLabel": {
+          "vi": "Lượt chạy (30 giây/lần)",
+          "en": "Scheduler runs (every 30 s)",
+          "ja": "スケジューラ実行（30秒ごと）"
+        },
+        "bottomLabel": {
+          "vi": "Slot mà lượt đó chuẩn bị",
+          "en": "Slot that run prepares",
+          "ja": "その実行が準備するスロット"
+        },
+        "offsetLabel": {
+          "vi": "+2 phút",
+          "en": "+2 min",
+          "ja": "+2分"
+        },
+        "points": [
+          {
+            "label": "05:58:30",
+            "status": "ok"
+          },
+          {
+            "label": "05:59:00",
+            "status": "ok"
+          },
+          {
+            "label": "05:59:30",
+            "status": "ok"
+          },
+          {
+            "label": "06:00:00",
+            "status": "ok"
+          },
+          {
+            "label": "06:00:30",
+            "status": "ok"
+          }
+        ],
+        "targets": [
+          {
+            "label": "06:00:30",
+            "status": "ok"
+          },
+          {
+            "label": "06:01:00",
+            "status": "ok"
+          },
+          {
+            "label": "06:01:30",
+            "status": "ok"
+          },
+          {
+            "label": "06:02:00",
+            "status": "ok"
+          },
+          {
+            "label": "06:02:30",
+            "status": "ok"
+          }
+        ],
+        "legend": [
+          {
+            "state": "ok",
+            "shape": "dot",
+            "text": {
+              "vi": "Lượt chạy",
+              "en": "Run",
+              "ja": "実行"
+            }
+          },
+          {
+            "state": "ok",
+            "text": {
+              "vi": "Slot có quảng cáo",
+              "en": "Slot with ad",
+              "ja": "広告ありスロット"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "title": {
+        "vi": "Một lượt chạy quá 30 giây",
+        "en": "One run takes longer than 30 seconds",
+        "ja": "1回の実行が30秒を超える"
+      },
+      "body": {
+        "vi": "Lượt 05:58:30 chạy khoảng 90 giây. Đến 05:59:00 và 05:59:30, scheduler <b>vẫn đang bận</b>.",
+        "en": "The 05:58:30 run takes about 90 seconds. At 05:59:00 and 05:59:30 the scheduler is <b>still busy</b>.",
+        "ja": "05:58:30の実行に約90秒かかります。05:59:00と05:59:30の時点で、スケジューラは<b>まだ処理中</b>です。"
+      },
+      "chips": [
+        {
+          "kind": "warn",
+          "text": {
+            "vi": "Lượt tới lúc đang bận bị bỏ qua, không xếp hàng chờ",
+            "en": "A run that comes due while busy is skipped, not queued",
+            "ja": "処理中に予定された実行はキューに入らず、スキップされる"
+          }
+        }
+      ],
+      "basis": "illustration",
+      "note": {
+        "type": "illustration",
+        "text": {
+          "vi": "Thời lượng 90 giây là giả định để minh họa cơ chế.",
+          "en": "The 90-second duration is assumed to illustrate the mechanism.",
+          "ja": "90秒は仕組みを示すための仮定の値です。"
+        }
+      },
+      "alt": {
+        "vi": "Thanh đỏ kéo dài, hai lượt 05:59:00 và 05:59:30 bị gạch bỏ",
+        "en": "A long red bar; the 05:59:00 and 05:59:30 runs are crossed out",
+        "ja": "長い赤いバー、05:59:00と05:59:30の実行に×印"
+      },
+      "visual": {
+        "pattern": "timeline",
+        "topLabel": {
+          "vi": "Lượt chạy (30 giây/lần)",
+          "en": "Scheduler runs (every 30 s)",
+          "ja": "スケジューラ実行（30秒ごと）"
+        },
+        "bottomLabel": {
+          "vi": "Slot mà lượt đó chuẩn bị",
+          "en": "Slot that run prepares",
+          "ja": "その実行が準備するスロット"
+        },
+        "skipLabel": {
+          "vi": "bỏ qua",
+          "en": "skipped",
+          "ja": "スキップ"
+        },
+        "points": [
+          {
+            "label": "05:58:30",
+            "status": "ok"
+          },
+          {
+            "label": "05:59:00",
+            "status": "skip"
+          },
+          {
+            "label": "05:59:30",
+            "status": "skip"
+          },
+          {
+            "label": "06:00:00",
+            "status": "ok"
+          },
+          {
+            "label": "06:00:30",
+            "status": "ok"
+          }
+        ],
+        "spans": [
+          {
+            "from": 0,
+            "to": 2.93,
+            "status": "bad",
+            "label": {
+              "vi": "lượt 05:58:30 chạy ~90 giây",
+              "en": "05:58:30 run takes ~90 s",
+              "ja": "05:58:30の実行に約90秒"
+            }
+          }
+        ],
+        "targets": [
+          {
+            "label": "06:00:30",
+            "status": "ok"
+          },
+          {
+            "label": "06:01:00",
+            "status": "bad"
+          },
+          {
+            "label": "06:01:30",
+            "status": "bad"
+          },
+          {
+            "label": "06:02:00",
+            "status": "ok"
+          },
+          {
+            "label": "06:02:30",
+            "status": "ok"
+          }
+        ],
+        "showMiss": false,
+        "legend": [
+          {
+            "state": "ok",
+            "shape": "dot",
+            "text": {
+              "vi": "Lượt chạy",
+              "en": "Run",
+              "ja": "実行"
+            }
+          },
+          {
+            "state": "bad",
+            "shape": "ring",
+            "text": {
+              "vi": "Lượt bị bỏ qua",
+              "en": "Skipped run",
+              "ja": "スキップされた実行"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "title": {
+        "vi": "Hậu quả: 2 slot không ai gọi",
+        "en": "Result: 2 slots nobody calls",
+        "ja": "結果：誰も呼び出さない2スロット"
+      },
+      "body": {
+        "vi": "Lượt 06:00:00 chỉ nhìn 2 phút tới (06:02:00), <b>không quay lại</b>. Slot 06:01:00 và 06:01:30 bị bỏ trống.",
+        "en": "The 06:00:00 run only looks 2 minutes ahead (06:02:00) and <b>does not go back</b>. Slots 06:01:00 and 06:01:30 stay empty.",
+        "ja": "06:00:00の実行は2分先（06:02:00）だけを見て、<b>遡りません</b>。06:01:00と06:01:30のスロットは空のままです。"
+      },
+      "chips": [
+        {
+          "kind": "warn",
+          "text": {
+            "vi": "10 màn hình dùng chung lượt chạy, nên cả 10 cùng thiếu 2 slot này",
+            "en": "All 10 screens share the same runs, so all 10 miss these 2 slots",
+            "ja": "10画面は同じ実行を共有するため、10画面すべてでこの2スロットが欠落"
+          }
+        }
+      ],
+      "basis": "illustration",
+      "note": {
+        "type": "illustration",
+        "text": {
+          "vi": "Cơ chế minh họa; 2 mốc thiếu khớp số liệu thực tế.",
+          "en": "Illustrated mechanism; the 2 missing times match the actual data.",
+          "ja": "仕組みの図解です。欠落した2つの時刻は実データと一致します。"
+        }
+      },
+      "alt": {
+        "vi": "Mũi tên đứt đỏ từ 2 lượt bị bỏ xuống 2 slot đỏ",
+        "en": "Dashed red arrows from the 2 skipped runs to 2 red slots",
+        "ja": "スキップされた2実行から赤い2スロットへ赤い破線矢印"
+      },
+      "visual": {
+        "pattern": "timeline",
+        "reveal": "final",
+        "showMiss": true,
+        "topLabel": {
+          "vi": "Lượt chạy (30 giây/lần)",
+          "en": "Scheduler runs (every 30 s)",
+          "ja": "スケジューラ実行（30秒ごと）"
+        },
+        "bottomLabel": {
+          "vi": "Slot mà lượt đó chuẩn bị",
+          "en": "Slot that run prepares",
+          "ja": "その実行が準備するスロット"
+        },
+        "skipLabel": {
+          "vi": "bỏ qua",
+          "en": "skipped",
+          "ja": "スキップ"
+        },
+        "points": [
+          {
+            "label": "05:58:30",
+            "status": "ok"
+          },
+          {
+            "label": "05:59:00",
+            "status": "skip"
+          },
+          {
+            "label": "05:59:30",
+            "status": "skip"
+          },
+          {
+            "label": "06:00:00",
+            "status": "ok"
+          },
+          {
+            "label": "06:00:30",
+            "status": "ok"
+          }
+        ],
+        "spans": [
+          {
+            "from": 0,
+            "to": 2.93,
+            "status": "bad",
+            "label": {
+              "vi": "lượt 05:58:30 chạy ~90 giây",
+              "en": "05:58:30 run takes ~90 s",
+              "ja": "05:58:30の実行に約90秒"
+            }
+          }
+        ],
+        "targets": [
+          {
+            "label": "06:00:30",
+            "status": "ok"
+          },
+          {
+            "label": "06:01:00",
+            "status": "bad"
+          },
+          {
+            "label": "06:01:30",
+            "status": "bad"
+          },
+          {
+            "label": "06:02:00",
+            "status": "ok"
+          },
+          {
+            "label": "06:02:30",
+            "status": "ok"
+          }
+        ],
+        "footnote": {
+          "targets": [
+            1,
+            2
+          ],
+          "text": {
+            "vi": "không lượt nào gọi",
+            "en": "no run calls these",
+            "ja": "どの実行も呼び出さない"
+          }
+        },
+        "legend": [
+          {
+            "state": "ok",
+            "text": {
+              "vi": "Slot có quảng cáo",
+              "en": "Slot with ad",
+              "ja": "広告ありスロット"
+            }
+          },
+          {
+            "state": "bad",
+            "text": {
+              "vi": "Slot thiếu",
+              "en": "Missing slot",
+              "ja": "欠落スロット"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "title": {
+        "vi": "Kết quả: {count}/160 slot có transaction",
+        "en": "Result: {count}/160 slots have a transaction",
+        "ja": "結果：{count}/160スロットにトランザクションあり"
+      },
+      "count": {
+        "from": 96,
+        "to": 130
+      },
+      "body": {
+        "vi": "Cả 10 màn hình thiếu <b>cùng 3 mốc</b>: 06:01:00, 06:01:30, 06:06:30.",
+        "en": "All 10 screens miss <b>the same 3 times</b>: 06:01:00, 06:01:30, 06:06:30.",
+        "ja": "10画面すべてで<b>同じ3つの時刻</b>が欠落：06:01:00、06:01:30、06:06:30。"
+      },
+      "checks": [
+        {
+          "text": {
+            "vi": "HiveStack trả HTTP 200, khoảng 0,3 giây",
+            "en": "HiveStack returned HTTP 200 in about 0.3 s",
+            "ja": "HiveStackはHTTP 200を約0.3秒で返却"
+          },
+          "verdict": {
+            "vi": "Loại trừ",
+            "en": "Ruled out",
+            "ja": "除外"
+          },
+          "status": "ok"
+        },
+        {
+          "text": {
+            "vi": "10 thiết bị đều tồn tại, Active",
+            "en": "All 10 devices exist and are Active",
+            "ja": "10台すべて登録済み・Active"
+          },
+          "verdict": {
+            "vi": "Loại trừ",
+            "en": "Ruled out",
+            "ja": "除外"
+          },
+          "status": "ok"
+        },
+        {
+          "text": {
+            "vi": "Log không có lệnh gọi ở 3 mốc",
+            "en": "Logs show no calls at the 3 times",
+            "ja": "3つの時刻に呼び出しログなし"
+          },
+          "verdict": {
+            "vi": "Lỗi ở scheduler",
+            "en": "Scheduler issue",
+            "ja": "スケジューラの問題"
+          },
+          "status": "key"
+        }
+      ],
+      "alt": {
+        "vi": "Lưới 10 × 16, ba cột 06:01:00, 06:01:30, 06:06:30 đỏ và được khoanh",
+        "en": "10 × 16 grid; columns 06:01:00, 06:01:30, 06:06:30 are red and outlined",
+        "ja": "10×16グリッド、06:01:00・06:01:30・06:06:30の列が赤く囲まれている"
+      },
+      "sources": [
+        "Bảng kết quả DB: 130/160",
+        "HTTP trace: HTTP 200, 259–292 ms",
+        "Serilog TEST-SEC: không có 'VAST transaction planned' tại 23:01:00Z, 23:01:30Z, 23:06:30Z"
+      ],
+      "visual": {
+        "pattern": "grid",
+        "rowCount": 10,
+        "colCount": 16,
+        "heads": [
+          "06:00",
+          "06:01",
+          "06:02",
+          "06:03",
+          "06:04",
+          "06:05",
+          "06:06",
+          "06:07"
+        ],
+        "headSpan": 2,
+        "cells": {
+          "default": "ok",
+          "cols": {
+            "2": "bad",
+            "3": "bad",
+            "13": "bad"
+          }
+        },
+        "anim": "focus",
+        "legend": [
+          {
+            "state": "ok",
+            "text": {
+              "vi": "Có transaction",
+              "en": "Has transaction",
+              "ja": "トランザクションあり"
+            }
+          },
+          {
+            "state": "bad",
+            "text": {
+              "vi": "Thiếu",
+              "en": "Missing",
+              "ja": "欠落"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "title": {
+        "vi": "Gọi lần lượt nên 1 lượt chạy quá lâu",
+        "en": "One-at-a-time calls make each run too long",
+        "ja": "1台ずつ呼ぶため実行が長くなる"
+      },
+      "body": {
+        "vi": "Scheduler gọi <b>lần lượt</b> từng màn hình. Càng nhiều màn hình, lượt càng dài.",
+        "en": "The scheduler calls screens <b>one at a time</b>. More screens means a longer run.",
+        "ja": "スケジューラは画面を<b>1台ずつ順番に</b>呼び出します。画面が増えるほど実行時間が延びます。"
+      },
+      "chips": [
+        {
+          "kind": "warn",
+          "text": {
+            "vi": "10 màn hình × 2 slot = 20 lần gọi, khoảng 100 giây",
+            "en": "10 screens × 2 slots = 20 calls, about 100 seconds",
+            "ja": "10画面 × 2スロット ＝ 20回の呼び出し、約100秒"
+          }
+        },
+        {
+          "kind": "warn",
+          "text": {
+            "vi": "HiveStack chỉ mất ~0,3 giây/lần. <b>Phần thời gian còn lại đang được tìm.</b>",
+            "en": "HiveStack takes only ~0.3 s per call. <b>The rest of the time is still being traced.</b>",
+            "ja": "HiveStackの応答は1回約0.3秒。<b>残りの時間の原因は調査中です。</b>"
+          }
+        }
+      ],
+      "basis": "unconfirmed",
+      "note": {
+        "type": "unconfirmed",
+        "text": {
+          "vi": "Mức ~5 giây/lần suy ra từ khoảng cách giữa các lượt trong log.",
+          "en": "The ~5 s per call is inferred from the gaps between runs in the logs.",
+          "ja": "1回約5秒はログ上の実行間隔から推定した値です。"
+        }
+      },
+      "alt": {
+        "vi": "20 ô nối đuôi nhau, vượt vạch giới hạn 30 giây",
+        "en": "20 blocks in a row, crossing the 30-second limit",
+        "ja": "20ブロックが並び、30秒の上限線を超える"
+      },
+      "visual": {
+        "pattern": "bars",
+        "max": 100,
+        "limit": {
+          "value": 30,
+          "label": {
+            "vi": "giới hạn 30 giây",
+            "en": "30 s limit",
+            "ja": "上限30秒"
+          }
+        },
+        "rows": [
+          {
+            "label": {
+              "vi": "Tuần tự",
+              "en": "Sequential",
+              "ja": "逐次処理"
+            },
+            "valueLabel": {
+              "vi": "100 giây",
+              "en": "100 s",
+              "ja": "100秒"
+            },
+            "value": 100,
+            "blocks": 20,
+            "status": "auto"
+          }
+        ],
+        "caption": {
+          "vi": "Mỗi ô = 1 lần gọi HiveStack (1 màn hình, 1 slot).",
+          "en": "Each block = 1 HiveStack call (1 screen, 1 slot).",
+          "ja": "1ブロック＝HiveStack呼び出し1回（1画面・1スロット）。"
+        }
+      }
+    },
+    {
+      "title": {
+        "vi": "Sửa 1: nhớ vị trí để bù slot bị lỡ",
+        "en": "Fix 1: remember the position to catch up",
+        "ja": "修正1：処理位置を記憶して取りこぼしを補完"
+      },
+      "body": {
+        "vi": "Mỗi màn hình nhớ slot tiếp theo cần làm (<b>cursor</b>). Lượt sau làm tiếp từ đó.",
+        "en": "Each screen remembers its next slot to process (the <b>cursor</b>). The next run continues from there.",
+        "ja": "各画面が次に処理するスロット（<b>カーソル</b>）を記憶し、次の実行はそこから再開します。"
+      },
+      "chips": [
+        {
+          "text": {
+            "vi": "Slot đã qua giờ phát: đánh dấu Expired, không gọi",
+            "en": "Slot already past its play time: mark Expired, do not call",
+            "ja": "配信時刻を過ぎたスロット：Expiredとして記録し、呼び出さない"
+          }
+        },
+        {
+          "text": {
+            "vi": "Mỗi slot một khóa idempotency: không tạo trùng",
+            "en": "One idempotency key per slot: no duplicates",
+            "ja": "スロットごとに冪等キー：重複を作らない"
+          }
+        }
+      ],
+      "basis": "proposal",
+      "note": {
+        "type": "proposal",
+        "text": {
+          "vi": "Giải pháp đề xuất, chưa triển khai.",
+          "en": "Proposed fix, not yet implemented.",
+          "ja": "提案中の修正で、未実装です。"
+        }
+      },
+      "alt": {
+        "vi": "Cursor quét qua lưới, ô đỏ chuyển vàng rồi xanh",
+        "en": "A cursor sweeps the grid; red cells turn amber, then green",
+        "ja": "カーソルが走査し、赤いマスが黄色、次に緑へ"
+      },
+      "visual": {
+        "pattern": "grid",
+        "rowCount": 10,
+        "colCount": 16,
+        "heads": [
+          "06:00",
+          "06:01",
+          "06:02",
+          "06:03",
+          "06:04",
+          "06:05",
+          "06:06",
+          "06:07"
+        ],
+        "headSpan": 2,
+        "cells": {
+          "default": "ok",
+          "cols": {
+            "2": "bad",
+            "3": "bad",
+            "13": "bad"
+          }
+        },
+        "anim": "cursor",
+        "cursor": {
+          "from": 2,
+          "label": {
+            "vi": "cursor",
+            "en": "cursor",
+            "ja": "カーソル"
+          }
+        },
+        "legend": [
+          {
+            "state": "ok",
+            "text": {
+              "vi": "Có transaction",
+              "en": "Has transaction",
+              "ja": "トランザクションあり"
+            }
+          },
+          {
+            "state": "bad",
+            "text": {
+              "vi": "Bị bỏ sót",
+              "en": "Missed",
+              "ja": "欠落"
+            }
+          },
+          {
+            "state": "warn",
+            "text": {
+              "vi": "Xử lý bù",
+              "en": "Caught up",
+              "ja": "後から補完"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "title": {
+        "vi": "Sửa 2: chạy song song để kịp 30 giây",
+        "en": "Fix 2: run in parallel to fit 30 seconds",
+        "ja": "修正2：並列処理で30秒以内に"
+      },
+      "body": {
+        "vi": "Chia lần gọi cho nhiều luồng cùng lúc. 4 luồng: khoảng <b>25 giây</b>.",
+        "en": "Split the calls across several workers. With 4 workers: about <b>25 seconds</b>.",
+        "ja": "呼び出しを複数のワーカーに分散します。4ワーカーで約<b>25秒</b>。"
+      },
+      "chips": [
+        {
+          "text": {
+            "vi": "Số luồng cấu hình được, bắt đầu từ 4",
+            "en": "Worker count is configurable, starting at 4",
+            "ja": "ワーカー数は設定可能、初期値は4"
+          }
+        },
+        {
+          "text": {
+            "vi": "Tự giảm luồng khi HiveStack báo lỗi 429 hoặc 5xx",
+            "en": "Reduce workers automatically on HiveStack 429 or 5xx",
+            "ja": "HiveStackが429や5xxを返したら自動でワーカー数を削減"
+          }
+        }
+      ],
+      "basis": "proposal",
+      "note": {
+        "type": "proposal",
+        "text": {
+          "vi": "Con số 25 giây tính theo giả định 5 giây/lần.",
+          "en": "The 25 s figure assumes 5 s per call.",
+          "ja": "25秒は1回5秒の仮定に基づく計算です。"
+        }
+      },
+      "alt": {
+        "vi": "Hàng tuần tự mờ; 4 luồng mỗi luồng 5 ô, xong trước vạch 30 giây",
+        "en": "Dimmed sequential row; 4 workers with 5 blocks each finish before the 30 s line",
+        "ja": "薄い逐次処理の行。4ワーカー各5ブロックが30秒線より前に完了"
+      },
+      "visual": {
+        "pattern": "bars",
+        "max": 100,
+        "limit": {
+          "value": 30,
+          "label": {
+            "vi": "giới hạn 30 giây",
+            "en": "30 s limit",
+            "ja": "上限30秒"
+          }
+        },
+        "rows": [
+          {
+            "label": {
+              "vi": "Tuần tự",
+              "en": "Sequential",
+              "ja": "逐次処理"
+            },
+            "valueLabel": {
+              "vi": "100 giây",
+              "en": "100 s",
+              "ja": "100秒"
+            },
+            "value": 100,
+            "blocks": 20,
+            "status": "auto",
+            "anim": "static",
+            "dim": true
+          },
+          {
+            "label": {
+              "vi": "Luồng 1",
+              "en": "Worker 1",
+              "ja": "ワーカー1"
+            },
+            "valueLabel": {
+              "vi": "25 giây",
+              "en": "25 s",
+              "ja": "25秒"
+            },
+            "value": 25,
+            "blocks": 5,
+            "status": "ok",
+            "at": 0.4
+          },
+          {
+            "label": {
+              "vi": "Luồng 2",
+              "en": "Worker 2",
+              "ja": "ワーカー2"
+            },
+            "value": 25,
+            "blocks": 5,
+            "status": "ok",
+            "at": 0.4
+          },
+          {
+            "label": {
+              "vi": "Luồng 3",
+              "en": "Worker 3",
+              "ja": "ワーカー3"
+            },
+            "value": 25,
+            "blocks": 5,
+            "status": "ok",
+            "at": 0.4
+          },
+          {
+            "label": {
+              "vi": "Luồng 4",
+              "en": "Worker 4",
+              "ja": "ワーカー4"
+            },
+            "value": 25,
+            "blocks": 5,
+            "status": "ok",
+            "at": 0.4
+          }
+        ]
+      }
+    },
+    {
+      "title": {
+        "vi": "Cần cả cursor và chạy song song",
+        "en": "Both the cursor and parallel runs are needed",
+        "ja": "カーソルと並列処理の両方が必要"
+      },
+      "body": {
+        "vi": "Cursor để không sót slot. Song song để mỗi lượt kịp 30 giây.",
+        "en": "The cursor so no slot is missed. Parallel runs so each run fits in 30 seconds.",
+        "ja": "カーソルでスロットの取りこぼしを防ぎ、並列処理で各実行を30秒以内に収めます。"
+      },
+      "chips": [
+        {
+          "kind": "warn",
+          "text": {
+            "vi": "Làm tròn giờ hay tăng vùng quét không giải quyết được",
+            "en": "Rounding the time or widening the scan window does not fix it",
+            "ja": "時刻の丸めやスキャン範囲の拡大では解決しない"
+          }
+        }
+      ],
+      "basis": "target",
+      "note": {
+        "type": "target",
+        "text": {
+          "vi": "160/160 là mục tiêu sau khi sửa, chưa đạt.",
+          "en": "160/160 is the target after the fix, not yet reached.",
+          "ja": "160/160は修正後の目標で、未達成です。"
+        }
+      },
+      "alt": {
+        "vi": "Hiện tại 130/160, mục tiêu 160/160, và 4 việc cần làm",
+        "en": "Now 130/160, target 160/160, and 4 next actions",
+        "ja": "現状130/160、目標160/160、対応事項4件"
+      },
+      "visual": [
+        {
+          "pattern": "stats",
+          "items": [
+            {
+              "label": {
+                "vi": "Hiện tại",
+                "en": "Now",
+                "ja": "現状"
+              },
+              "value": "130/160",
+              "status": "bad"
+            },
+            {
+              "label": {
+                "vi": "Mục tiêu sau khi sửa",
+                "en": "Target after fix",
+                "ja": "修正後の目標"
+              },
+              "value": "160/160",
+              "status": "ok"
+            }
+          ]
+        },
+        {
+          "pattern": "list",
+          "title": {
+            "vi": "Việc cần làm",
+            "en": "Next actions",
+            "ja": "対応事項"
+          },
+          "items": [
+            {
+              "text": {
+                "vi": "Tìm phần thời gian bị tốn ngoài HiveStack",
+                "en": "Trace where the time goes outside HiveStack",
+                "ja": "HiveStack以外で時間を消費している箇所を特定"
+              }
+            },
+            {
+              "text": {
+                "vi": "Thêm log mỗi lượt: giờ bắt đầu, kết thúc, vùng slot, số lần gọi",
+                "en": "Log every run: start, end, slot window, call count",
+                "ja": "実行ごとにログ追加：開始・終了・スロット範囲・呼び出し回数"
+              }
+            },
+            {
+              "text": {
+                "vi": "Làm cursor cho từng màn hình và chạy song song có giới hạn",
+                "en": "Add a per-screen cursor and bounded parallel processing",
+                "ja": "画面ごとのカーソルと上限付き並列処理を実装"
+              }
+            },
+            {
+              "text": {
+                "vi": "Chạy lại 06:00–06:08 với 10 màn hình: đủ 160/160 slot có kết quả",
+                "en": "Rerun 06:00–06:08 on the 10 screens: all 160/160 slots must have a result",
+                "ja": "06:00–06:08を10画面で再実行：160/160スロットすべてに結果があること"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

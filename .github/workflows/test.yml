@@ -1,0 +1,25 @@
+name: test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.11"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Run regression tests
+        run: python -m unittest discover -s tests -v
+      - name: Validate sample stories
+        run: python plugins/onboard/skills/onboard/scripts/regress.py --no-render
+      - name: Compile Python sources
+        run: python -m compileall -q install plugins/onboard tests
+      - name: Parse manifests
+        run: python -c "import json; [json.load(open(p, encoding='utf-8')) for p in ['.claude-plugin/marketplace.json', 'plugins/onboard/.claude-plugin/plugin.json', 'plugins/onboard/hooks/hooks.json']]"

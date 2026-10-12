@@ -1,0 +1,551 @@
+{
+  "version": 1,
+  "id": "v12-showcase",
+  "langs": [
+    "vi",
+    "en"
+  ],
+  "theme": "onboard",
+  "format": "stepper",
+  "style": "clean",
+  "autoplay": false,
+  "brief": {
+    "recipient": "Team dev và QC nội bộ",
+    "sharing": "internal",
+    "level": "low",
+    "situation": "Luồng tích hợp hệ thống",
+    "skeleton": "giai-thich",
+    "purpose": "Hiểu luồng gọi, trạng thái slot và tác động của cách sửa",
+    "audience": {
+      "context": "known",
+      "depth": "flow",
+      "goal": "understand",
+      "tone": "internal",
+      "length": "5min"
+    }
+  },
+  "meta": {
+    "title": {
+      "vi": "Scheduler, HiveStack và vòng đời một slot",
+      "en": "Scheduler, HiveStack and the life of a slot"
+    },
+    "subtitle": {
+      "vi": "Ví dụ trình diễn các loại hình",
+      "en": "Pattern showcase"
+    }
+  },
+  "steps": [
+    {
+      "title": {
+        "vi": "Mỗi slot đi qua 3 hệ thống trước khi phát",
+        "en": "Each slot passes through 3 systems before playback"
+      },
+      "body": {
+        "vi": "Scheduler gọi VAST, HiveStack trả quảng cáo, kết quả được lưu thành DOOH transaction.",
+        "en": "The scheduler calls VAST, HiveStack returns an ad, and the result is stored as a DOOH transaction."
+      },
+      "layout": "hero",
+      "alt": {
+        "vi": "Sơ đồ trình tự 3 bên",
+        "en": "Sequence diagram with 3 participants"
+      },
+      "visual": {
+        "pattern": "sequence",
+        "participants": [
+          {
+            "id": "s",
+            "label": "Scheduler"
+          },
+          {
+            "id": "h",
+            "label": "HiveStack"
+          },
+          {
+            "id": "d",
+            "label": "DB"
+          }
+        ],
+        "messages": [
+          {
+            "from": "s",
+            "to": "s",
+            "label": {
+              "vi": "chọn slot sau 2 phút",
+              "en": "pick slot 2 min ahead"
+            }
+          },
+          {
+            "from": "s",
+            "to": "h",
+            "label": {
+              "vi": "gọi VAST",
+              "en": "VAST request"
+            }
+          },
+          {
+            "from": "h",
+            "to": "s",
+            "label": {
+              "vi": "trả quảng cáo",
+              "en": "ad response"
+            },
+            "status": "ok"
+          },
+          {
+            "from": "s",
+            "to": "d",
+            "label": {
+              "vi": "lưu DOOH transaction",
+              "en": "save DOOH transaction"
+            },
+            "status": "ok"
+          }
+        ]
+      }
+    },
+    {
+      "title": {
+        "vi": "Slot kết thúc ở một trong 4 trạng thái",
+        "en": "A slot ends in one of 4 states"
+      },
+      "body": {
+        "vi": "Slot đã qua giờ phát thì thành Expired, không gọi HiveStack.",
+        "en": "A slot past its play time becomes Expired and is not called."
+      },
+      "basis": "proposal",
+      "note": {
+        "type": "proposal",
+        "text": {
+          "vi": "Trạng thái theo thiết kế đề xuất.",
+          "en": "States follow the proposed design."
+        }
+      },
+      "alt": {
+        "vi": "Sơ đồ trạng thái của slot",
+        "en": "Slot state machine"
+      },
+      "visual": {
+        "pattern": "states",
+        "lanes": [
+          {
+            "vi": "Xử lý",
+            "en": "Processing"
+          },
+          {
+            "vi": "Kết quả",
+            "en": "Result"
+          }
+        ],
+        "states": [
+          {
+            "id": "w",
+            "label": {
+              "vi": "Chờ",
+              "en": "Waiting"
+            },
+            "row": 0,
+            "col": 0,
+            "status": "info"
+          },
+          {
+            "id": "c",
+            "label": {
+              "vi": "Đang gọi",
+              "en": "Calling"
+            },
+            "row": 0,
+            "col": 1
+          },
+          {
+            "id": "ok",
+            "label": "Completed",
+            "row": 1,
+            "col": 1,
+            "status": "ok"
+          },
+          {
+            "id": "nf",
+            "label": "NoFill",
+            "row": 1,
+            "col": 2,
+            "status": "warn"
+          },
+          {
+            "id": "ex",
+            "label": "Expired",
+            "row": 1,
+            "col": 0,
+            "status": "muted"
+          }
+        ],
+        "transitions": [
+          {
+            "from": "w",
+            "to": "c"
+          },
+          {
+            "from": "c",
+            "to": "ok"
+          },
+          {
+            "from": "c",
+            "to": "nf"
+          },
+          {
+            "from": "w",
+            "to": "ex",
+            "label": {
+              "vi": "quá giờ",
+              "en": "too late"
+            }
+          }
+        ],
+        "path": [
+          "w",
+          "c",
+          "ok"
+        ]
+      }
+    },
+    {
+      "title": {
+        "vi": "Phút 06:01 và 06:06 thiếu trên mọi màn hình",
+        "en": "Minutes 06:01 and 06:06 are short on every screen"
+      },
+      "body": {
+        "vi": "Mỗi ô là số transaction trong một phút (tối đa 2).",
+        "en": "Each cell is the number of transactions in one minute (max 2)."
+      },
+      "layout": "hero",
+      "alt": {
+        "vi": "Bảng nhiệt 5 màn hình × 8 phút",
+        "en": "Heatmap of 5 screens × 8 minutes"
+      },
+      "visual": {
+        "pattern": "heatmap",
+        "rows": [
+          {
+            "vi": "MH 1",
+            "en": "Screen 1"
+          },
+          {
+            "vi": "MH 2",
+            "en": "Screen 2"
+          },
+          {
+            "vi": "MH 3",
+            "en": "Screen 3"
+          },
+          {
+            "vi": "MH 4",
+            "en": "Screen 4"
+          },
+          {
+            "vi": "MH 5",
+            "en": "Screen 5"
+          }
+        ],
+        "cols": [
+          "06:00",
+          "06:01",
+          "06:02",
+          "06:03",
+          "06:04",
+          "06:05",
+          "06:06",
+          "06:07"
+        ],
+        "values": [
+          [
+            2,
+            0,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2
+          ],
+          [
+            2,
+            0,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2
+          ],
+          [
+            2,
+            0,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2
+          ],
+          [
+            2,
+            0,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2
+          ],
+          [
+            2,
+            0,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2
+          ]
+        ],
+        "min": 0,
+        "max": 2,
+        "scale": "good-high",
+        "highlight": {
+          "cells": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              6
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "title": {
+        "vi": "Kéo để so sánh trước và sau khi sửa",
+        "en": "Drag to compare before and after the fix"
+      },
+      "body": {
+        "vi": "Bên trái là kết quả thực tế, bên phải là mục tiêu.",
+        "en": "Left is the actual result, right is the target."
+      },
+      "basis": "target",
+      "note": {
+        "type": "target",
+        "text": {
+          "vi": "160/160 là mục tiêu, chưa đạt.",
+          "en": "160/160 is the target, not yet reached."
+        }
+      },
+      "layout": "hero",
+      "alt": {
+        "vi": "Thanh kéo so sánh hai lưới",
+        "en": "Slider comparing two grids"
+      },
+      "visual": {
+        "pattern": "slider",
+        "before": {
+          "pattern": "grid",
+          "rowCount": 10,
+          "colCount": 16,
+          "heads": [
+            "06:00",
+            "06:01",
+            "06:02",
+            "06:03",
+            "06:04",
+            "06:05",
+            "06:06",
+            "06:07"
+          ],
+          "headSpan": 2,
+          "cells": {
+            "default": "ok",
+            "cols": {
+              "2": "bad",
+              "3": "bad",
+              "13": "bad"
+            }
+          },
+          "anim": "static"
+        },
+        "after": {
+          "pattern": "grid",
+          "rowCount": 10,
+          "colCount": 16,
+          "heads": [
+            "06:00",
+            "06:01",
+            "06:02",
+            "06:03",
+            "06:04",
+            "06:05",
+            "06:06",
+            "06:07"
+          ],
+          "headSpan": 2,
+          "cells": {
+            "default": "ok"
+          },
+          "anim": "static"
+        },
+        "beforeLabel": {
+          "vi": "Hiện tại 130/160",
+          "en": "Now 130/160"
+        },
+        "afterLabel": {
+          "vi": "Mục tiêu 160/160",
+          "en": "Target 160/160"
+        }
+      }
+    },
+    {
+      "title": {
+        "vi": "Thử số màn hình và số luồng để xem lượt có kịp 30 giây",
+        "en": "Try screens and workers to see if a run fits 30 seconds"
+      },
+      "body": {
+        "vi": "Thời gian một lần gọi lấy theo log, có thể chỉnh.",
+        "en": "Call time comes from the logs and can be adjusted."
+      },
+      "basis": "assumption",
+      "note": {
+        "type": "assumption",
+        "text": {
+          "vi": "Mặc định 5 giây/lần gọi, chưa xác nhận.",
+          "en": "Default 5 s per call, unconfirmed."
+        }
+      },
+      "layout": "split",
+      "alt": {
+        "vi": "Bộ mô phỏng thời gian một lượt",
+        "en": "Run-time simulator"
+      },
+      "visual": {
+        "pattern": "calc",
+        "inputs": [
+          {
+            "id": "n",
+            "label": {
+              "vi": "Số màn hình",
+              "en": "Screens"
+            },
+            "min": 1,
+            "max": 60,
+            "value": 10
+          },
+          {
+            "id": "t",
+            "label": {
+              "vi": "Giây mỗi lần gọi",
+              "en": "Seconds per call"
+            },
+            "min": 0.3,
+            "max": 8,
+            "step": 0.1,
+            "value": 5,
+            "decimals": 1
+          },
+          {
+            "id": "w",
+            "label": {
+              "vi": "Số luồng",
+              "en": "Workers"
+            },
+            "min": 1,
+            "max": 8,
+            "value": 1
+          }
+        ],
+        "outputs": [
+          {
+            "label": {
+              "vi": "Một lượt mất",
+              "en": "One run takes"
+            },
+            "expr": "ceil(n*2/w)*t",
+            "decimals": 0,
+            "unit": {
+              "vi": "giây",
+              "en": "s"
+            },
+            "status": [
+              {
+                "if": "ceil(n*2/w)*t <= 30",
+                "state": "ok"
+              },
+              {
+                "if": "ceil(n*2/w)*t > 30",
+                "state": "bad"
+              }
+            ]
+          }
+        ],
+        "bars": {
+          "max": 120,
+          "limit": {
+            "value": 30,
+            "label": {
+              "vi": "30 giây",
+              "en": "30 s"
+            }
+          },
+          "rows": [
+            {
+              "label": {
+                "vi": "Một lượt",
+                "en": "One run"
+              },
+              "valueExpr": "min(120, ceil(n*2/w)*t)"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "title": {
+        "vi": "Vì sao slot 06:01:00 bị thiếu?",
+        "en": "Why was the 06:01:00 slot missing?"
+      },
+      "layout": "center",
+      "alt": {
+        "vi": "Câu hỏi trắc nghiệm",
+        "en": "Multiple-choice question"
+      },
+      "visual": {
+        "pattern": "quiz",
+        "questions": [
+          {
+            "q": {
+              "vi": "Chọn đáp án đúng",
+              "en": "Pick the right answer"
+            },
+            "options": [
+              {
+                "vi": "HiveStack trả lỗi",
+                "en": "HiveStack returned an error"
+              },
+              {
+                "vi": "Lượt chạy trước kéo dài nên lượt của nó bị bỏ qua",
+                "en": "The previous run overran, so its run was skipped"
+              },
+              {
+                "vi": "Màn hình bị tắt",
+                "en": "The screen was off"
+              }
+            ],
+            "answer": 1,
+            "explain": {
+              "vi": "Scheduler không chạy chồng lượt và không chạy bù.",
+              "en": "The scheduler neither overlaps runs nor catches up."
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

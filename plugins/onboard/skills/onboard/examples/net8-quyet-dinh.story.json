@@ -1,0 +1,440 @@
+{
+  "version": 1,
+  "id": "net8-duyet-v2",
+  "langs": [
+    "vi"
+  ],
+  "theme": "onboard",
+  "format": "stepper",
+  "style": "clean",
+  "brief": {
+    "recipient": "Sếp (người duyệt), nội bộ",
+    "sharing": "internal",
+    "level": "high",
+    "situation": "Xin quyết định",
+    "skeleton": "quyet-dinh",
+    "purpose": "Duyệt kế hoạch .NET 8 và quyết định lộ trình .NET 10",
+    "audience": {
+      "context": "known",
+      "depth": "conclusion",
+      "goal": "decide",
+      "tone": "formal",
+      "length": "5min"
+    },
+    "objections": [
+      {
+        "q": "Không làm thì sao?",
+        "step": 2
+      },
+      {
+        "q": "Hợp đồng ghi .NET 10, làm .NET 8 có ổn không?",
+        "step": 3
+      },
+      {
+        "q": "Vì sao lên .NET 8 khi nó hết hỗ trợ sau 4 tuần?",
+        "step": 4
+      },
+      {
+        "q": "Sau 10/11 thì sao?",
+        "step": 5
+      },
+      {
+        "q": "10 ngày có chắc không, trượt thì sao?",
+        "step": 7
+      },
+      {
+        "q": "Lên thẳng .NET 10 tốn bao nhiêu công?",
+        "gap": "Chưa có ước lượng công cho .NET 10"
+      }
+    ]
+  },
+  "meta": {
+    "title": "Nâng cấp .NET 7: duyệt .NET 8 và lộ trình .NET 10",
+    "subtitle": "Kế hoạch nội bộ · cần quyết trong ngày 13/10/2026"
+  },
+  "steps": [
+    {
+      "title": "Duyệt .NET 8 trong 10 ngày, kèm giao owner lộ trình .NET 10",
+      "body": "Hai việc cần quyết trong ngày 13/10/2026.",
+      "chips": [
+        {
+          "kind": "warn",
+          "text": "Thiếu thời gian thì dời lịch hoặc giảm ngoài phạm vi, không cắt kiểm thử bắt buộc"
+        }
+      ],
+      "layout": "center",
+      "alt": "Bốn con số: 10 ngày, 2 Dev và 2 QA, tổng công 21–34,5 PD, hạn quyết định 13/10/2026",
+      "sources": [
+        "Báo cáo nội bộ nâng cấp .NET 7 lên .NET 8 (12/10/2026) §1, §4, §12",
+        "Người soạn, 13/10/2026"
+      ],
+      "visual": {
+        "pattern": "stats",
+        "items": [
+          {
+            "label": "Thời gian",
+            "value": "10 ngày",
+            "status": "info"
+          },
+          {
+            "label": "Nhân lực",
+            "value": "2 Dev + 2 QA",
+            "status": "info"
+          },
+          {
+            "label": "Tổng công",
+            "value": "21–34,5 PD"
+          },
+          {
+            "label": "Hạn quyết định",
+            "value": "13/10/2026",
+            "status": "warn"
+          }
+        ]
+      }
+    },
+    {
+      "title": "Hệ thống đang chạy .NET 7, đã hết hỗ trợ từ 14/5/2024",
+      "body": "Khoảng 29 tháng không còn bản vá bảo mật từ Microsoft. Snapshot ban đầu ghi nhận advisory mức High ở AutoMapper 12.0.1.",
+      "notes": [
+        {
+          "type": "unconfirmed",
+          "text": "Advisory theo snapshot ban đầu, cần xác minh lại khi nâng cấp."
+        }
+      ],
+      "alt": ".NET 7 hết hỗ trợ 14/5/2024, quá hạn khoảng 29 tháng, 1 advisory mức High",
+      "sources": [
+        "Microsoft .NET support policy / .NET Blog (đối chiếu 13/10/2026): .NET 7 hết hỗ trợ 14/5/2024",
+        "Báo cáo nội bộ nâng cấp .NET 7 lên .NET 8 (12/10/2026) §2"
+      ],
+      "visual": {
+        "pattern": "stats",
+        "items": [
+          {
+            "label": ".NET 7 hết hỗ trợ",
+            "value": "14/5/2024",
+            "status": "bad"
+          },
+          {
+            "label": "Đã quá hạn",
+            "value": "~29 tháng",
+            "status": "bad"
+          },
+          {
+            "label": "Advisory mức High",
+            "value": "1",
+            "status": "warn",
+            "note": "AutoMapper 12.0.1"
+          }
+        ]
+      }
+    },
+    {
+      "title": "Hợp đồng ghi .NET 10, phạm vi đã chốt là .NET 8",
+      "body": "Xong .NET 8 vẫn chưa đạt đích hợp đồng. Tiêu chí nghiệm thu yêu cầu framework được khách hàng phê duyệt.",
+      "alt": "So sánh đích theo hợp đồng và phạm vi đã chốt",
+      "sources": [
+        "Người soạn, 13/10/2026: hợp đồng ghi .NET 10, phạm vi đã chốt .NET 8",
+        "Báo cáo nội bộ nâng cấp .NET 7 lên .NET 8 (12/10/2026) §3.2, §9",
+        "Microsoft .NET support policy / .NET Blog (đối chiếu 13/10/2026): .NET 10 hỗ trợ đến 11/2028"
+      ],
+      "visual": {
+        "pattern": "compare",
+        "left": {
+          "title": "Theo hợp đồng",
+          "items": [
+            {
+              "text": "Đích: .NET 10"
+            },
+            {
+              "text": "Hỗ trợ đến 11/2028"
+            },
+            {
+              "text": "Công: chưa ước lượng"
+            }
+          ]
+        },
+        "right": {
+          "title": "Phạm vi đã chốt",
+          "items": [
+            {
+              "text": "Đích: .NET 8",
+              "status": "changed"
+            },
+            {
+              "text": "Hỗ trợ đến 10/11/2026",
+              "status": "changed"
+            },
+            {
+              "text": "Công: 21–34,5 PD trong 10 ngày"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "title": "Chỉ .NET 10 khớp hợp đồng, nhưng chưa có ước lượng công",
+      "body": "Lên .NET 8 đưa hệ thống về runtime còn vá trong khoảng 4 tuần; sau đó vẫn phải lên .NET 10.",
+      "basis": "proposal",
+      "note": {
+        "type": "proposal",
+        "text": "Cột .NET 8 là phạm vi đã chốt và là đề xuất của báo cáo; cột .NET 10 chưa có ước lượng."
+      },
+      "layout": "hero",
+      "alt": "Bảng so sánh ba hướng: giữ .NET 7, .NET 8 trong 10 ngày, lên thẳng .NET 10",
+      "sources": [
+        "Báo cáo nội bộ nâng cấp .NET 7 lên .NET 8 (12/10/2026) §1, §4, §5",
+        "Microsoft .NET support policy / .NET Blog (đối chiếu 13/10/2026)",
+        "Người soạn, 13/10/2026"
+      ],
+      "visual": {
+        "pattern": "matrix",
+        "cols": [
+          "Giữ .NET 7",
+          ".NET 8 trong 10 ngày",
+          "Lên thẳng .NET 10"
+        ],
+        "recommend": 1,
+        "rows": [
+          {
+            "label": "Bản vá bảo mật",
+            "cells": [
+              {
+                "text": "Không, từ 14/5/2024",
+                "status": "bad"
+              },
+              {
+                "text": "Đến 10/11/2026",
+                "status": "warn"
+              },
+              {
+                "text": "Đến 11/2028",
+                "status": "ok"
+              }
+            ]
+          },
+          {
+            "label": "Khớp hợp đồng",
+            "cells": [
+              {
+                "text": "Không",
+                "status": "bad"
+              },
+              {
+                "text": "Chưa, đích hợp đồng là .NET 10",
+                "status": "warn"
+              },
+              {
+                "text": "Có",
+                "status": "ok"
+              }
+            ]
+          },
+          {
+            "label": "Công",
+            "cells": [
+              {
+                "text": "0"
+              },
+              {
+                "text": "21–34,5 PD",
+                "status": "ok"
+              },
+              {
+                "text": "Chưa ước lượng",
+                "status": "warn"
+              }
+            ]
+          },
+          {
+            "label": "Lịch",
+            "cells": [
+              {
+                "text": "—"
+              },
+              {
+                "text": "10 ngày làm việc, 3 gate",
+                "status": "ok"
+              },
+              {
+                "text": "Chưa có",
+                "status": "warn"
+              }
+            ]
+          },
+          {
+            "label": "Còn phải làm tiếp",
+            "cells": [
+              {
+                "text": "Toàn bộ",
+                "status": "bad"
+              },
+              {
+                "text": "Lên .NET 10",
+                "status": "warn"
+              },
+              {
+                "text": "Không",
+                "status": "ok"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "title": "Sau 10/11/2026 chưa có kế hoạch, hệ thống lại chạy runtime hết hỗ trợ",
+      "body": "Báo cáo đề xuất ghi nhận rủi ro này thành quyết định riêng, có owner và hạn.",
+      "layout": "hero",
+      "alt": "Dòng mốc: 14/5/2024, 13/10/2026, 10/11/2026, 11/2028",
+      "sources": [
+        "Microsoft .NET support policy / .NET Blog (đối chiếu 13/10/2026)",
+        "Báo cáo nội bộ nâng cấp .NET 7 lên .NET 8 (12/10/2026) §12",
+        "Người soạn, 13/10/2026: chưa có kế hoạch sau 10/11"
+      ],
+      "visual": {
+        "pattern": "timeline",
+        "reveal": "final",
+        "topLabel": "Mốc hỗ trợ",
+        "points": [
+          {
+            "label": "14/5/2024",
+            "status": "ok"
+          },
+          {
+            "label": "13/10/2026",
+            "status": "ok"
+          },
+          {
+            "label": "10/11/2026",
+            "status": "ok"
+          },
+          {
+            "label": "11/2028",
+            "status": "ok"
+          }
+        ],
+        "spans": [
+          {
+            "from": 0,
+            "to": 0.97,
+            "status": "bad",
+            "label": ".NET 7 hết vá"
+          },
+          {
+            "from": 1.03,
+            "to": 1.97,
+            "status": "warn",
+            "label": ".NET 8: 28 ngày"
+          },
+          {
+            "from": 2.03,
+            "to": 3,
+            "status": "bad",
+            "label": "Chưa có kế hoạch"
+          }
+        ],
+        "caption": "Khoảng cách giữa các mốc không theo tỉ lệ."
+      }
+    },
+    {
+      "title": "Effort vừa đủ công suất 10 ngày, cần dự phòng 10–15%",
+      "body": "2 Dev và 2 QA trong 10 ngày có tối đa 20 PD mỗi nhóm. PD là một ngày công của một người.",
+      "alt": "Thanh effort Dev 12 và 20 PD, QA 9 và 14,5 PD, so với vạch công suất 20 PD",
+      "sources": [
+        "Báo cáo nội bộ nâng cấp .NET 7 lên .NET 8 (12/10/2026) §1, §4"
+      ],
+      "visual": {
+        "pattern": "bars",
+        "max": 22,
+        "limit": {
+          "value": 20,
+          "label": "Công suất 20 PD"
+        },
+        "together": true,
+        "rows": [
+          {
+            "label": "Dev, cận dưới",
+            "valueLabel": "12 PD",
+            "value": 12,
+            "status": "ok"
+          },
+          {
+            "label": "Dev, cận trên",
+            "valueLabel": "20 PD",
+            "value": 20,
+            "status": "warn"
+          },
+          {
+            "label": "QA, cận dưới",
+            "valueLabel": "9 PD",
+            "value": 9,
+            "status": "ok"
+          },
+          {
+            "label": "QA, cận trên",
+            "valueLabel": "14,5 PD",
+            "value": 14.5,
+            "status": "ok"
+          }
+        ]
+      }
+    },
+    {
+      "title": "Mỗi rủi ro lớn đều có điểm dừng, không cắt kiểm thử để giữ ngày",
+      "body": "Không đạt Gate 1 (ngày 3) hoặc Gate 2 (ngày 5) thì BE team điều chỉnh forecast và báo team Kế hoạch trong ngày.",
+      "alt": "Bốn rủi ro và cách xử lý tương ứng",
+      "sources": [
+        "Báo cáo nội bộ nâng cấp .NET 7 lên .NET 8 (12/10/2026) §1, §5, §8"
+      ],
+      "visual": {
+        "pattern": "checks",
+        "items": [
+          {
+            "text": "Thiếu SDK, staging hoặc database đến ngày 1–2",
+            "verdict": "Escalate owner môi trường",
+            "status": "warn"
+          },
+          {
+            "text": "Package không tương thích, advisory không có bản vá",
+            "verdict": "Tech Lead quyết tiếp tục, giảm scope hay escalate",
+            "status": "warn"
+          },
+          {
+            "text": "Audit còn High/Critical",
+            "verdict": "Chặn phát hành, trừ khi có exception có owner và hạn",
+            "status": "key"
+          },
+          {
+            "text": "Migration khác thường hoặc dữ liệu lệch",
+            "verdict": "Dừng rollout provider đó, DBA review",
+            "status": "key"
+          }
+        ]
+      }
+    },
+    {
+      "title": "Cần quyết 2 việc trong ngày 13/10/2026",
+      "layout": "center",
+      "alt": "Hai việc cần quyết: duyệt kế hoạch .NET 8 và giao owner lộ trình .NET 10",
+      "sources": [
+        "Báo cáo nội bộ nâng cấp .NET 7 lên .NET 8 (12/10/2026) §10, §12",
+        "Người soạn, 13/10/2026"
+      ],
+      "visual": {
+        "pattern": "list",
+        "items": [
+          {
+            "text": "Duyệt kế hoạch .NET 8: 10 ngày làm việc, 21–34,5 PD, chỉ bắt đầu khi SDK 8, hai database và staging sẵn sàng",
+            "due": "13/10/2026"
+          },
+          {
+            "text": "Giao owner và hạn cho lộ trình .NET 10 theo hợp đồng, trước mốc 10/11/2026",
+            "owner": "Chưa có owner",
+            "due": "13/10/2026"
+          }
+        ]
+      }
+    }
+  ]
+}

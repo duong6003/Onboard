@@ -1,0 +1,16 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "onboard-tools",
+  "version": "1.0.0",
+  "owner": {
+    "name": "Onboard"
+  },
+  "description": "Bộ plugin nội bộ cho BA/PM: trang giải trình, onboard, báo cáo sự cố dễ hiểu.",
+  "plugins": [
+    {
+      "name": "onboard",
+      "source": "./plugins/onboard",
+      "description": "Dựng trang giải trình / onboard bấm từng bước, đa ngữ, có hình động; tự đề xuất mức kiểm soát, không bịa số liệu, báo lại cho người soạn."
+    }
+  ]
+}
